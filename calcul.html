@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculatrice Simple</title>
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icon.webp" sizes="192x192" type="image/webp">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to bottom, #f8c8dc, #b19cd9);
+        }
+        .calculator {
+            width: 250px;
+            padding: 10px;
+            background: black;
+            border-radius: 10px;
+            text-align: center;
+        }
+        .screen {
+            width: 90%;
+            height: 50px;
+            margin-bottom: 10px;
+            text-align: right;
+            font-size: 1.5em;
+            padding: 10px;
+            background: lightblue;
+            border: none;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 5px;
+        }
+        button {
+            width: 100%;
+            height: 50px;
+            font-size: 1.2em;
+            cursor: pointer;
+        }
+        .clear { background: orange; }
+        .equal { background: green; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="screen" id="screen" disabled>
+        <div class="buttons">
+            <button class="clear" onclick="clearScreen()">C</button>
+            <button onclick="appendValue('(')">(</button>
+            <button onclick="appendValue(')')">)</button>
+            <button onclick="appendValue('/')">/</button>
+            <button onclick="appendValue('7')">7</button>
+            <button onclick="appendValue('8')">8</button>
+            <button onclick="appendValue('9')">9</button>
+            <button onclick="appendValue('*')">*</button>
+            <button onclick="appendValue('4')">4</button>
+            <button onclick="appendValue('5')">5</button>
+            <button onclick="appendValue('6')">6</button>
+            <button onclick="appendValue('-')">-</button>
+            <button onclick="appendValue('1')">1</button>
+            <button onclick="appendValue('2')">2</button>
+            <button onclick="appendValue('3')">3</button>
+            <button onclick="appendValue('+')">+</button>
+            <button onclick="appendValue('0')">0</button>
+            <button onclick="appendValue('.')">.</button>
+            <button class="equal" onclick="calculate()">=</button>
+            <button onclick="appendValue('**')">**</button>
+        </div>
+    </div>
+    <script>
+        function appendValue(value) {
+            document.getElementById("screen").value += value;
+        }
+        function clearScreen() {
+            document.getElementById("screen").value = "";
+        }
+        function calculate() {
+            try {
+                document.getElementById("screen").value = eval(document.getElementById("screen").value);
+            } catch {
+                alert("Calcul invalide");
+            }
+        }
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.register("sw.js")
+            .then(() => console.log("Service Worker enregistré !"))
+            .catch((error) => console.log("Erreur Service Worker", error));
+        }
+    </script>
+</body>
+</html>
